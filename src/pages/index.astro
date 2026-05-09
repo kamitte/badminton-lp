@@ -1,16 +1,67 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Hero from '../components/Hero.astro';
-import Features from '../components/Features.astro';
-import FeatureDetails from '../components/FeatureDetails.astro';
-import Formats from '../components/Formats.astro';
-import Pricing from '../components/Pricing.astro';
-import Download from '../components/Download.astro';
-import Footer from '../components/Footer.astro';
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Features from "../components/Features.astro";
+import FeatureDetails from "../components/FeatureDetails.astro";
+import Formats from "../components/Formats.astro";
+import Pricing from "../components/Pricing.astro";
+import Download from "../components/Download.astro";
+import Footer from "../components/Footer.astro";
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? Astro.url.origin;
+
+const softwareApplicationSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "@id": `${siteUrl}/#software`,
+  name: "バドデスク",
+  description:
+    "バドミントン大会の運営をオフラインで完結できるデスクトップアプリ。参加者登録、組み合わせ作成（トーナメント / リーグ / リーグ→トーナメント）、試合進行・スコア入力、スコアシート印刷、賞状作成までを一貫して管理できます。",
+  applicationCategory: "BusinessApplication",
+  applicationSubCategory: "SportsApplication",
+  operatingSystem: "Windows",
+  inLanguage: "ja",
+  url: `${siteUrl}/`,
+  image: `${siteUrl}/web-app-manifest-512x512.png`,
+  downloadUrl: "https://apps.microsoft.com/detail/9P7QVJMH92G7",
+  publisher: { "@id": `${siteUrl}/#organization` },
+  featureList: [
+    "大会管理",
+    "種目管理（個人戦・団体戦）",
+    "参加者登録（手動 / Excel一括インポート）",
+    "組み合わせ作成（トーナメント / リーグ / リーグ→トーナメント）",
+    "試合進行・スコア管理（21点制・3ゲームマッチ）",
+    "スコアシートPDF出力",
+    "大会結果・順位表示",
+    "賞状PDF出力",
+  ],
+  offers: [
+    {
+      "@type": "Offer",
+      name: "無料プラン",
+      price: "0",
+      priceCurrency: "JPY",
+      description: "参加者数10人までの大会を作成可能。全機能を試せます。",
+    },
+    {
+      "@type": "Offer",
+      name: "プレミアムプラン（年額）",
+      price: "16000",
+      priceCurrency: "JPY",
+      description: "参加者数無制限。年額プラン。",
+    },
+  ],
+};
 ---
 
 <Layout>
+  <script
+    is:inline
+    slot="structured-data"
+    type="application/ld+json"
+    set:html={JSON.stringify(softwareApplicationSchema)}
+  />
   <Header />
   <main>
     <Hero />

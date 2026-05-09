@@ -8,6 +8,30 @@ const {
   title = "バドデスク - バドミントン大会運営アプリ",
   description = "バドミントン大会の運営をオフラインで完結。組み合わせ作成から試合進行、スコアシート印刷、賞状印刷まで一貫して管理できるデスクトップアプリ。",
 } = Astro.props;
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? Astro.url.origin;
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${siteUrl}/#website`,
+  name: "バドデスク",
+  description:
+    "バドミントン大会の運営をオフラインで完結できるデスクトップアプリ「バドデスク」の公式サイト。",
+  url: `${siteUrl}/`,
+  inLanguage: "ja",
+  publisher: { "@id": `${siteUrl}/#organization` },
+};
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${siteUrl}/#organization`,
+  name: "エスゴ",
+  url: "https://esugo.pages.dev/",
+  logo: `${siteUrl}/web-app-manifest-512x512.png`,
+};
 ---
 
 <!doctype html>
@@ -18,11 +42,28 @@ const {
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
 
+    <link rel="canonical" href={canonicalUrl} />
+
     <!-- OGP -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ja_JP" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="バドデスク" />
+
+    <!-- JSON-LD -->
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(websiteSchema)}
+    />
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(organizationSchema)}
+    />
+    <slot name="structured-data" />
 
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="shortcut icon" href="/favicon.ico" />
