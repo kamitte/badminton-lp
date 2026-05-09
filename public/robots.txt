@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://badminton-lp.pages.dev/sitemap-index.xml
